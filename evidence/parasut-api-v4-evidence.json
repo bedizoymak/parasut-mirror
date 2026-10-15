@@ -1,0 +1,249 @@
+{
+  "base_url": "https://api.parasut.com/v4/{company_id}",
+  "specification_standard": "JSON:API (http://jsonapi.org/) + OpenAPI 2.0",
+  "content_type": "application/vnd.api+json",
+  "authentication": {
+    "protocol": "OAuth 2.0",
+    "flows": [
+      "authorization_code",
+      "password",
+      "refresh_token"
+    ],
+    "token_url": "https://api.parasut.com/oauth/token",
+    "access_token_ttl_seconds": 7200
+  },
+  "rate_limiting": {
+    "limit": 10,
+    "window_seconds": 10,
+    "strategy": "Token Bucket (10 requests per 10 seconds)"
+  },
+  "pagination_contract": {
+    "query_params": [
+      "page[number]",
+      "page[size]"
+    ],
+    "default_page_size": 15,
+    "max_page_size": 25,
+    "meta_response": {
+      "current_page": 1,
+      "total_pages": 1,
+      "total_count": 0
+    }
+  },
+  "compound_documents": {
+    "query_param": "include",
+    "examples": [
+      "GET /v4/{company_id}/sales_invoices/{id}?include=contact,details.product,payments.transaction,active_e_document,category,tags",
+      "GET /v4/{company_id}/purchase_bills/{id}?include=supplier,details.product,payments.transaction,category,tags"
+    ]
+  },
+  "verified_endpoints": [
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/sales_offers",
+      "resource_type": "sales_offers",
+      "filters": [
+        "filter[archived]",
+        "filter[query]",
+        "filter[invoice_status]",
+        "filter[status]"
+      ],
+      "sorts": [
+        "id",
+        "issue_date",
+        "description",
+        "net_total_in_trl",
+        "sales_invoice_id"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/sales_offers",
+      "resource_type": "sales_offers"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/sales_invoices",
+      "resource_type": "sales_invoices",
+      "filters": [
+        "filter[issue_date]",
+        "filter[due_date]",
+        "filter[contact_id]",
+        "filter[invoice_id]",
+        "filter[item_type]",
+        "filter[Print_status]",
+        "filter[payment_status]"
+      ],
+      "sorts": [
+        "id",
+        "issue_date",
+        "due_date",
+        "remaining",
+        "remaining_in_trl"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/sales_invoices",
+      "resource_type": "sales_invoices"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/sales_invoices/{id}/payments",
+      "resource_type": "payments"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v4/{company_id}/sales_invoices/{id}/cancel",
+      "resource_type": "sales_invoices"
+    },
+    {
+      "method": "PATCH",
+      "path": "/v4/{company_id}/sales_invoices/{id}/recover",
+      "resource_type": "sales_invoices"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/contacts",
+      "resource_type": "contacts",
+      "filters": [
+        "filter[name]",
+        "filter[email]",
+        "filter[tax_number]",
+        "filter[city]",
+        "filter[account_type]"
+      ],
+      "sorts": [
+        "id",
+        "balance",
+        "name",
+        "email"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/contacts/{id}/contact_debit_transactions",
+      "resource_type": "transactions"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/contacts/{id}/contact_credit_transactions",
+      "resource_type": "transactions"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/purchase_bills",
+      "resource_type": "purchase_bills"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/purchase_bills#basic",
+      "resource_type": "purchase_bills"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/purchase_bills#detailed",
+      "resource_type": "purchase_bills"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/purchase_bills/{id}/payments",
+      "resource_type": "payments"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/bank_fees",
+      "resource_type": "bank_fees"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/salaries",
+      "resource_type": "salaries"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/taxes",
+      "resource_type": "taxes"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/employees",
+      "resource_type": "employees"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/accounts",
+      "resource_type": "accounts"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/accounts/{id}/debit_transactions",
+      "resource_type": "transactions"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/accounts/{id}/credit_transactions",
+      "resource_type": "transactions"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/products",
+      "resource_type": "products"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/warehouses",
+      "resource_type": "warehouses"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/shipment_documents",
+      "resource_type": "shipment_documents"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/stock_movements",
+      "resource_type": "stock_movements"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/inventory_levels",
+      "resource_type": "inventory_levels"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/item_categories",
+      "resource_type": "item_categories"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/tags",
+      "resource_type": "tags"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/e_invoice_inboxes",
+      "resource_type": "e_invoice_inboxes"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/e_archives",
+      "resource_type": "e_archives"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/e_invoices",
+      "resource_type": "e_invoices"
+    },
+    {
+      "method": "POST",
+      "path": "/v4/{company_id}/e_smms",
+      "resource_type": "e_smms"
+    },
+    {
+      "method": "GET",
+      "path": "/v4/{company_id}/trackable_jobs/{id}",
+      "resource_type": "trackable_jobs"
+    }
+  ]
+}
